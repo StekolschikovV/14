@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>14</title>
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <link rel="icon" href="398555.png" type="image/x-icon" />
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<!--<audio autoplay="autoplay">-->
+    <!--<source src="intro.mp3" type="audio/mpeg">-->
+<!--</audio>-->
+    <script>
+
+
+
+
+
+
+        var scene, camera, render, controls;
+
+        function init() {
+
+            scene = new THREE.Scene();
+            render = new THREE.WebGLRenderer();
+            render.setSize(window.innerWidth, window.innerHeight);
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.01, 20000)
+            camera.position.z = 500;
+            camera.position.y = 2500;
+            camera.position.x = 1500;
+            camera.rotation.x = -100
+
+
+//            var asis = new THREE.AxisHelper(50);
+//            scene.add(asis);
+
+//            var cube_geometry = new THREE.CubeGeometry(
+//                Math.random() * (Math.random()*100),
+//                Math.random() * (Math.random()*100),
+//                Math.random() * (Math.random()*100));
+//            var cube_matherial = new THREE.MeshNormalMaterial();
+
+            var cube_group = new THREE.Group();
+
+            for(var i = 0; i < 500; i++){
+//                var cube = new THREE.Mesh(cube_geometry, cube_matherial);
+//                cube.position.z = -(Math.random() * 20000 - 200);
+//                cube.position.y = Math.random() * 20000 - 200;
+//                cube.position.x = Math.random() * 20000 - 100;
+//
+//                cube_group.add(cube);
+
+
+                var x = 50, y = 50;
+
+                var heartShape = new THREE.Shape();
+
+                heartShape.moveTo( x + 5, y + 5 );
+                heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
+                heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
+                heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
+                heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
+                heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
+                heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+
+                var geometry = new THREE.ShapeBufferGeometry( heartShape );
+                var material = new THREE.MeshBasicMaterial( { color: "red" } );
+                var mesh = new THREE.Mesh( geometry, material ) ;
+                mesh.position.z = -(Math.random() * 1500 - 200);
+                mesh.position.y = Math.random() * 1500 - 200;
+                mesh.position.x = Math.random() * 1500 - 100;
+                mesh.rotation.x = Math.random()*10;
+                mesh.rotation.y = Math.random()*10;
+//                console.log(Math.random()*10);
+//                scene.add( mesh );
+                cube_group.add(mesh);
+            }
+            scene.add(cube_group);
+
+            camera.lookAt(cube_group.position);
+
+//            var spotLight = new THREE.DirectionalLight( 0xFF2400 );
+//            spotLight.position.set( 50, -2000, -2000 );
+////            spotLight.rotation.y = 50;
+//            scene.add(spotLight );
+
+
+
+
+            document.body.appendChild(render.domElement);
+
+            controls = new THREE.OrbitControls(camera, render.domElement);
+
+
+        }
+
+        function animate() {
+            camera.position.z -= 0.5;
+//            camera.position.y +=1;
+            camera.position.y -=0.5;
+//            camera.position.x += 0.8;
+//            camera.rotation.x += 0.5;
+//            camera.rotation.y += 0.4;
+
+            requestAnimationFrame(animate);
+            render.render(scene, camera);
+            controls.update();
+        }
+
+        init();
+        animate();
+
+        function callback () {
+            var audio = new Audio('intro.mp3');
+            audio.play();
+        }
+        window.addEventListener("load", callback, false);
+
+    </script>
+
+</body>
+</html>
